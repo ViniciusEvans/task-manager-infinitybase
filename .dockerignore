@@ -1,0 +1,13 @@
+node_modules/
+build/
+tmp/
+temp/
+/coverage.data
+/coverage/
+.env
+.git
+.gitignore
+.eslintrc.js
+# Extras, only for Docker
+test
+Dockerfile
