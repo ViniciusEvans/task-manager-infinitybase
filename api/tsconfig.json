@@ -16,7 +16,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "resolveJsonModule": true,
-    "baseUrl": "./",
+    "baseUrl": "./"
   },
-  "include": ["src", "**/*.ts", "**/*.js"]
+  "include": ["src", "**/*.ts", "**/*.js"],
 }
