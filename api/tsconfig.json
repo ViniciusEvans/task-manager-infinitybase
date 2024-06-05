@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "lib": ["es2019"],
     "target": "es2018",
     "module": "commonjs",
@@ -7,16 +8,19 @@
     "outDir": "build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "skipLibCheck": true,
     "strict": true,
     "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "resolveJsonModule": true,
-    "baseUrl": "./"
+    "noUnusedParameters": true,
+    "baseUrl": "."
   },
-  "include": ["src", "**/*.ts", "**/*.js"],
+  "ts-node": {
+    "files": true
+  },
+  "files": ["src/globals.d.ts"],
+  "include": ["**/*.ts", "**/*.js", "migrations/**/*.ts"]
 }
