@@ -1,4 +1,4 @@
-import { InvalidArgument } from "src/domain/entities/commom/ApplicationLayerException";
+import { InvalidArgument } from "src/domain/commom/ApplicationLayerException";
 import { AuthenticationService } from "../../../application/services/authenticationService";
 import { NextFunction, Request, Response } from "express";
 
@@ -25,7 +25,7 @@ export class AuthenticationController {
   async refreshAuth(req: Request, res: Response, next: NextFunction) {
     try {
       const { refreshToken } = req.body;
-
+      
       if (!refreshToken) {
         throw new InvalidArgument("refreshToken must be provided", 400);
       }
