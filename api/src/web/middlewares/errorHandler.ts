@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { InvalidArgument } from "src/domain/entities/commom/ApplicationLayerException";
+import { InvalidArgument } from "src/domain/commom/ApplicationLayerException";
 
 export default function errorHandler(
   err: InvalidArgument,
