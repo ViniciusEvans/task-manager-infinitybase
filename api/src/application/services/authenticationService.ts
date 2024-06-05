@@ -1,5 +1,5 @@
 import { IUserRepository } from "src/domain/entities/User/IUserRepository";
-import { InvalidArgument } from "src/domain/entities/commom/ApplicationLayerException";
+import { InvalidArgument } from "src/domain/commom/ApplicationLayerException";
 import { IHashService } from "src/domain/services/IHashService";
 import { ITokenService } from "src/domain/services/ITokenService";
 
