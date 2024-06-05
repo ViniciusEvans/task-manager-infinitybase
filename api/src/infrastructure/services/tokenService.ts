@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { InvalidArgument } from "src/domain/entities/commom/ApplicationLayerException";
+import { InvalidArgument } from "src/domain/commom/ApplicationLayerException";
 import { ITokenService, TokenContent } from "src/domain/services/ITokenService";
 
 export class TokenService implements ITokenService {
@@ -44,7 +44,6 @@ export class TokenService implements ITokenService {
   }
 
   private createAccessToken(data: { name: string; email: string; id: string }) {
-    console.log(process.env.JWT_SECRET);
 
     return jwt.sign(data, process.env.JWT_SECRET as string, {
       expiresIn: "1h",
