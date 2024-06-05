@@ -1,6 +1,6 @@
 import { IUserRepository } from "src/domain/entities/User/IUserRepository";
 import { User } from "src/domain/entities/User/User";
-import { InvalidArgument } from "src/domain/entities/commom/ApplicationLayerException";
+import { InvalidArgument } from "src/domain/commom/ApplicationLayerException";
 import { IHashService } from "src/domain/services/IHashService";
 
 export class UserService {
@@ -9,7 +9,7 @@ export class UserService {
     private readonly hashService: IHashService
   ) {}
 
-  async CreateUser(name: string, email: string, password: string) {
+  async createUser(name: string, email: string, password: string) {
     const isEmailInUse = (await this.UserRepository.getUserByEmail(email))
       ? true
       : false;
@@ -20,8 +20,6 @@ export class UserService {
 
     const hashPassword = await this.hashService.encrypt(password);
 
-    await this.UserRepository.store(new User(name, hashPassword, email));
-
-    return true;
+    await this.UserRepository.store(new User(name, email, hashPassword));
   }
 }
