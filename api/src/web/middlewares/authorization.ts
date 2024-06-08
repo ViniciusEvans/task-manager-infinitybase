@@ -8,7 +8,7 @@ export const authorization = (
   next: NextFunction
 ) => {
   try {
-    const publicRoutes: string[] = ["/signup", "/login", "/refresh"];
+    const publicRoutes: string[] = ["/auth/signup", "/auth/login", "/auth/refresh"];
 
     if (publicRoutes.includes(req.path)) {
       next();
