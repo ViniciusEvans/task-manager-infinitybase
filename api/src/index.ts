@@ -9,7 +9,7 @@ import cors from "cors";
 
 AppDataSource.initialize().then(() => {
   const app = express();
-  
+
   app.use(cors());
   app.use(express.json());
 
@@ -18,5 +18,5 @@ AppDataSource.initialize().then(() => {
 
   app.use(errorHandler);
 
-  app.listen(process.env.PORT || 3000);
+  app.listen(process.env.PORT || 8000);
 });
