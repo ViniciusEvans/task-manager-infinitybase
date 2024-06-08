@@ -1,0 +1,77 @@
+@media (max-width: 600px) {
+    .dashboard-container {
+        height: 100vh;
+        width: 100vw;
+        padding: 5%;
+    }
+
+    .tasks-section {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: 100%;
+    }
+
+    .engine-button {
+        all: unset;
+    }
+
+    #engine-img {
+        width: 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .find-input {
+        width: 100%;
+    }
+
+    .task-board-container {
+        display: flex;
+        width: auto;
+        overflow-y: scroll;
+        height: 100%;
+    }
+}
+
+@media (min-width: 600px) {
+    .dashboard-container {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .tasks-section {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: 100%;
+        padding: 50px;
+    }
+
+    .engine-button {
+        all: unset;
+    }
+
+    #engine-img {
+        width: 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .find-input {
+        width: 100%;
+    }
+
+    .task-board-container {
+        display: flex;
+        width: auto;
+        overflow-y: scroll;
+        max-height: 100%;
+    }
+}
