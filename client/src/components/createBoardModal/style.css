@@ -1,0 +1,98 @@
+@media (max-width: 600px) {
+    .modal-container {
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 100vw;
+        z-index: 0;
+        top: 10%;
+        left: 0;
+        right: 0;
+        position: fixed;
+        box-shadow:
+            6px 6px 12px #dcdcdc,
+            -6px -6px 12px #e4e4e4;
+    }
+
+    .create-modal-section {
+        width: 100%;
+        height: 70px;
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .create-modal-section form {
+        display: flex;
+    }
+
+    #create-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-color: #4caf50;
+        border-style: outset;
+        text-align: center;
+    }
+
+    #create-button:active {
+        border-style: inset;
+    }
+
+    #name-input {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    #close-button {
+        border-radius: 0%;
+    }
+}
+
+@media (min-width: 600px) {
+    .modal-container {
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 36%;
+        z-index: 0;
+        top: 20%;
+        position: absolute;
+        box-shadow:
+            6px 6px 12px #dcdcdc,
+            -6px -6px 12px #e4e4e4;
+    }
+    .create-modal-section {
+        width: 100%;
+        height: 70px;
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5%;
+    }
+
+    .create-modal-section form {
+        display: flex;
+    }
+
+    #create-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-color: #4caf50;
+        border-style: outset;
+        text-align: center;
+        width: 30%;
+    }
+
+    #name-input {
+        border: 1px solid #ccc;
+        width: 70%;
+    }
+
+    #close-button {
+        border-radius: 0%;
+        height: auto;
+    }
+}
