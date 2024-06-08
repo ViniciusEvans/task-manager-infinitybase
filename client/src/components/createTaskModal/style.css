@@ -1,0 +1,135 @@
+@media (max-width: 600px) {
+    .task-modal-container {
+        background-color: rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        box-shadow:
+            6px 6px 12px #dcdcdc,
+            -6px -6px 12px #e4e4e4;
+        padding: 20px;
+        align-content: center;
+    }
+
+    .task-modal-section {
+        background-color: white;
+        height: auto;
+        padding: 10px;
+    }
+
+    .task-modal-form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .input-title {
+        width: 100%;
+    }
+
+    .task-selector {
+        border-radius: 0px;
+        margin-bottom: 7px;
+    }
+
+    .task-status .task-input,
+    .task-users .task-input {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .task-button {
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .task-input {
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .task-select-label {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .task-textarea {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .input-file {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+@media (min-width: 600px) {
+    .task-modal-container {
+        background-color: rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        box-shadow:
+            6px 6px 12px #dcdcdc,
+            -6px -6px 12px #e4e4e4;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .task-modal-section {
+        background-color: white;
+        height: 50%;
+        width: 50%;
+        padding: 10px;
+    }
+
+    .task-modal-form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .input-title {
+        width: 100%;
+    }
+
+    .task-selector {
+        border-radius: 0px;
+        margin-bottom: 7px;
+    }
+
+    .task-button {
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .task-input {
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .task-select-label {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .task-textarea {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .input-file {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
