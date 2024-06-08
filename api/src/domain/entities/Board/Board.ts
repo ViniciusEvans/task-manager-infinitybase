@@ -52,4 +52,13 @@ export class Board {
     }
     userRole.changePermission(userPermissionLevel);
   }
+
+  setTaskStatus() {
+    this.taskStatus = [];
+    this.taskStatus.push(
+      new TaskStatus("TO DO", this),
+      new TaskStatus("IN PROGRESS", this),
+      new TaskStatus("COMPLETED", this)
+    );
+  }
 }
