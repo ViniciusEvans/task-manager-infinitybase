@@ -1,0 +1,38 @@
+@media (max-width: 600px) {
+    .task-board {
+        display: flex;
+        flex-direction: column;
+        min-width: 70%;
+        background-color: rgb(128, 128, 128, 0.3);
+        margin-top: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .add-task-button {
+        border-radius: 0px;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+}
+@media (min-width: 600px) {
+    .task-board {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(128, 128, 128, 0.3);
+        flex-grow: 1;
+        margin-top: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .add-task-button {
+        border-radius: 0px;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+}
