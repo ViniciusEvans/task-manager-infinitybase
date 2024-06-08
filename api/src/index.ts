@@ -1,12 +1,16 @@
+import "express-async-errors";
 import express from "express";
-import { configureDI, configureRouter } from "./web/services";
+import { configureDI } from "./web/services";
 import "dotenv/config";
 import errorHandler from "./web/middlewares/errorHandler";
 import { AppDataSource } from "./data-source";
+import { configureRouter } from "./routes";
+import cors from "cors";
 
 AppDataSource.initialize().then(() => {
   const app = express();
-
+  
+  app.use(cors());
   app.use(express.json());
 
   const diContainer = configureDI();
