@@ -1,6 +1,7 @@
 import { Board } from "src/domain/entities/Board/Board";
 import { IBoardRepository } from "src/domain/entities/Board/IBoardRepository";
 import { UserRole } from "src/domain/entities/Board/UserRole";
+import { TaskStatus } from "src/domain/entities/Task/TaskStatus";
 import { DataSource } from "typeorm";
 
 export class BoardRepository implements IBoardRepository {
@@ -31,12 +32,14 @@ export class BoardRepository implements IBoardRepository {
   }
 
   async store(board: Board): Promise<void> {
+    board.setTaskStatus();
     await this.dataSource.getRepository(Board).save(board);
+    await this.dataSource.getRepository(TaskStatus).save(board.taskStatus);
     await this.dataSource.getRepository(UserRole).save(board.usersRole);
   }
 
   async removeUserRole(userRole: UserRole): Promise<void> {
-    await this.dataSource.getRepository(UserRole).remove(userRole)
+    await this.dataSource.getRepository(UserRole).remove(userRole);
   }
 
   async findBoardById(boardId: string): Promise<Board | null> {
