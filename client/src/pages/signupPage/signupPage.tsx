@@ -33,15 +33,17 @@ const SignupPage = () => {
             <header>
                 <h1>Create account</h1>
             </header>
-            <form onSubmit={submitForm}>
+            <form className="signup-form" onSubmit={submitForm}>
                 <input
+                    className="signup-input"
                     placeholder="name"
-                    id="name-input"
+                    id="name-signup-input"
                     type="text"
                     value={formParams.name}
                     onChange={(e) => setFormParams({ ...formParams, name: e.currentTarget.value })}
                 />
                 <input
+                    className="signup-input"
                     placeholder="email"
                     id="email-input"
                     type="email"
@@ -49,13 +51,14 @@ const SignupPage = () => {
                     onChange={(e) => setFormParams({ ...formParams, email: e.currentTarget.value })}
                 />
                 <input
+                    className="signup-input"
                     placeholder="password"
                     id="password-input"
                     type="password"
                     value={formParams.password}
                     onChange={(e) => setFormParams({ ...formParams, password: e.currentTarget.value })}
                 />
-                <button type="submit">Create account</button>
+                <button type="submit" className='signup-submit-button'>Create account</button>
 
                 <span id="error-message">{errorMessage}</span>
             </form>
