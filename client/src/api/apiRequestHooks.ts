@@ -21,7 +21,7 @@ type Attachment = {
     attachmentUrl: string
 }
 
-type Task = {
+export type Task = {
     id: string
     title: string
     taskStatus: TaskStatus
@@ -127,4 +127,13 @@ export function useFindTask() {
     })
 
     return { mutate, error, isSuccess, data }
+}
+
+export function useGetOne() {
+    const token = localStorage.getItem('refreshToken')
+    const { error, isSuccess, data, mutate } = useMutation(async ({ taskId, boardId }: { taskId: string; boardId: string }) => {
+        return await axiosClient.get<Task>(`/task?boardId=${boardId}&taskId=${taskId}`, { headers: { Authorization: 'Bearer ' + token } })
+    })
+
+    return { error, isSuccess, data, mutate }
 }
