@@ -49,6 +49,7 @@ type DashboardState = {
     board: Board
     setDashboard: (board: Board) => void
     addTask: (task: Task) => void
+    setTasks: (task: Task[]) => void
 }
 
 type CreateTaskModalState = {
@@ -77,7 +78,8 @@ export const useBoardsStores = create<BoardsState>((set) => ({
 export const useDashboardStore = create<DashboardState>((set) => ({
     board: { id: '', name: '', taskStatus: [], tasks: [], users: [], usersRole: [] },
     setDashboard: (board: Board) => set((state) => ({ ...state, board: board })),
-    addTask: (task: Task) => set((state) => ({ ...state, board: { ...state.board, tasks: [...state.board.tasks, task] } }))
+    addTask: (task: Task) => set((state) => ({ ...state, board: { ...state.board, tasks: [...state.board.tasks, task] } })),
+    setTasks: (tasks: Task[]) => set((state) => ({ ...state, board: { ...state.board, tasks: [...tasks] } }))
 }))
 
 export const useCreateTaskModal = create<CreateTaskModalState>((set) => ({
