@@ -24,7 +24,37 @@ export class TasksController {
     return res.status(200).send(tasks);
   }
 
-  async editTaskStatus(req: Request, res: Response) {}
+  async editTask(req: Request, res: Response) {
+    const { boardId, title, description, statusId, attachments, taskId } =
+      req.body;
+    //@ts-ignore next-line
+    const { id: userId } = req.currentUser;
+
+    if (!boardId) {
+      throw new InvalidArgument("boardId must be provided", 400);
+    }
+    if (!title) {
+      throw new InvalidArgument("title must be provided", 400);
+    }
+    if (!description) {
+      throw new InvalidArgument("description must be provided", 400);
+    }
+    if (!statusId) {
+      throw new InvalidArgument("statusId must be provided", 400);
+    }
+
+    const task = await this.tasksService.editTask(
+      taskId,
+      boardId,
+      title,
+      description,
+      statusId,
+      userId,
+      attachments
+    );
+
+    return res.status(200).send(task);
+  }
 
   async createTask(req: Request, res: Response) {
     const { boardId, title, description, statusId, userId, attachments } =
@@ -53,6 +83,27 @@ export class TasksController {
       statusId,
       userId,
       attachments
+    );
+
+    return res.status(200).send(task);
+  }
+
+  async getOne(req: Request, res: Response) {
+    const { boardId, taskId } = req.query;
+    //@ts-ignore next-line
+    const { id: userId } = req.currentUser;
+
+    if (!boardId) {
+      throw new InvalidArgument("boardId must be provided", 400);
+    }
+    if (!taskId) {
+      throw new InvalidArgument("taskId must be provided", 400);
+    }
+
+    const task = await this.tasksService.getOne(
+      userId,
+      taskId as string,
+      boardId as string
     );
 
     return res.status(200).send(task);
