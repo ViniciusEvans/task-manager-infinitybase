@@ -21,7 +21,7 @@ type UserRole = {
     user: User
 }
 
-type Attachment = {
+export type Attachment = {
     id: string
     attachmentUrl: string
 }
@@ -55,6 +55,10 @@ type DashboardState = {
 type CreateTaskModalState = {
     showCreateTaskModal: boolean
     setShowCreateTaskModal: () => void
+}
+type ViewTaskModalState = {
+    showViewTaskModal: boolean
+    setShowViewTaskModal: () => void
 }
 
 type TaskFormDataState = {
@@ -95,4 +99,15 @@ export const useTaskFormData = create<TaskFormDataState>((set) => ({
             ...state,
             task: { id: '', title: '', taskStatus: { id: '', status: '' }, description: '', user: { id: '', name: '' }, boardId: '', attachments: [] }
         }))
+}))
+
+export const useViewTaskModal = create<ViewTaskModalState>((set) => ({
+    showViewTaskModal: false,
+    setShowViewTaskModal: () => set((state) => ({ ...state, showViewTaskModal: !state.showViewTaskModal }))
+}))
+
+export const useGetOneTaskStore = create<{ taskId: string; boardId: string; setStore: (taskId: string, boardId: string) => void }>((set) => ({
+    taskId: '',
+    boardId: '',
+    setStore: (taskId, boardId) => set((state) => ({ ...state, taskId, boardId }))
 }))
