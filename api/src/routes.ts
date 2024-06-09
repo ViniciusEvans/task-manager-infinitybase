@@ -44,4 +44,6 @@ export function configureRouter(app: Application, diContainer: AppDIContainer) {
     .route("/tasks")
     .post((req, res) => tasksController.getTasksFromBoard(req, res));
   app.route("/task").post((req, res) => tasksController.createTask(req, res));
+  app.route("/task").put((req, res) => tasksController.editTask(req, res));
+  app.route("/task").get((req, res) => tasksController.getOne(req, res));
 }
