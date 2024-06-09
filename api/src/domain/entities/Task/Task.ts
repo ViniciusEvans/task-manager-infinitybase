@@ -48,4 +48,20 @@ export class Task {
     this.board = board;
     this.taskStatus = taskStatus;
   }
+
+  setAttachments(attachments: Attachment[]) {
+    this.attachments = attachments;
+  }
+
+  editTask(
+    title: string,
+    description: string,
+    taskStatus: TaskStatus,
+    attachments: Attachment[]
+  ) {
+    this.title = title;
+    this.description = description;
+    this.taskStatus = taskStatus;
+    this.attachments = attachments;
+  }
 }
