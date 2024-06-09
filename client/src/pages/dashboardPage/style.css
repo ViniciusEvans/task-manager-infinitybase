@@ -10,7 +10,8 @@
         width: auto;
         height: 100%;
         padding: 5%;
-        }
+        box-sizing: border-box;
+    }
 
     .engine-button {
         all: unset;
@@ -49,6 +50,7 @@
         width: auto;
         height: 100%;
         padding: 50px;
+        box-sizing: border-box;
     }
 
     .engine-button {
