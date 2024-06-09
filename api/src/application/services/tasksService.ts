@@ -79,7 +79,7 @@ export class TasksService {
       attachmentArr.push(new Attachment(file, task));
     }
 
-    task.attachments = attachmentArr;
+    task.setAttachments(attachmentArr);
 
     await this.taskRepository.store(task);
 
@@ -89,5 +89,73 @@ export class TasksService {
       taskStatus: task.taskStatus,
       user: { id: user.id, name: user.name },
     };
+  }
+
+  async editTask(
+    taskId: string,
+    boardId: string,
+    title: string,
+    description: string,
+    statusId: string,
+    userId: string,
+    attachments: { id: string; fileName: string }[]
+  ) {
+    const user = await this.userRepsotory.getUserById(userId);
+    const board = await this.boardRepository.findBoardByUserIdAndBoardId(
+      userId,
+      boardId
+    );
+    const task = await this.taskRepository.findTaskById(taskId);
+
+    if (!user) {
+      throw new InvalidArgument("user not found", 404);
+    }
+    if (!board) {
+      throw new InvalidArgument("user dont belong to this board", 401);
+    }
+    if (!task) {
+      throw new InvalidArgument("Task not found", 404);
+    }
+
+    const taskStatus = board.taskStatus.find(
+      (taskStatus) => taskStatus.id === statusId
+    );
+
+    task.editTask(
+      title,
+      description,
+      taskStatus!,
+      attachments as unknown as Attachment[]
+    );
+
+    await this.taskRepository.store(task);
+
+    return {
+      id: task.id,
+      title: task.title,
+      taskStatus: task.taskStatus,
+      user: { id: user.id, name: user.name },
+    };
+  }
+
+  async getOne(userId: string, taskId: string, boardId: string) {
+    const user = await this.userRepsotory.getUserById(userId);
+    const board = await this.boardRepository.findBoardByUserIdAndBoardId(
+      userId,
+      boardId
+    );
+    const task = await this.taskRepository.findTaskById(taskId);
+
+    if (!user) {
+      throw new InvalidArgument("user not found", 404);
+    }
+    if (!board) {
+      throw new InvalidArgument("user dont belong to this board", 401);
+    }
+    if (!task) {
+      throw new InvalidArgument("Task not found", 404);
+    }
+
+    return task;
   }
 }
