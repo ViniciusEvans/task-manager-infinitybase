@@ -12,9 +12,11 @@ export const TaskBoard = ({ id, name }: { id: string; name: string }) => {
     return (
         <div className="task-board">
             <h3>{name}</h3>
-            <button className="add-task-button" onClick={setShowCreateTaskModal}>+</button>
+            <button className="add-task-button" onClick={setShowCreateTaskModal}>
+                +
+            </button>
 
-            {tasks && tasks.map((task) => <Task key={task.id} id={task.id} title={task.title} ownerName={task.user.name} />)}
+            {tasks && tasks.map((task) => <Task boardId={board.id} key={task.id} id={task.id} title={task.title} ownerName={task.user.name} />)}
         </div>
     )
 }
