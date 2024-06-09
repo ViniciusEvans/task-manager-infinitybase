@@ -17,4 +17,11 @@ export class TaskRepository implements ITaskRepository {
     await this.dataSource.getRepository(Task).save(task);
     await this.dataSource.getRepository(Attachment).save(task.attachments);
   }
+
+  async findTaskById(id: string): Promise<Task | null> {
+    return this.dataSource.getRepository(Task).findOne({
+      where: { id },
+      relations: ["user", "board", "attachments", "taskStatus"],
+    });
+  }
 }
