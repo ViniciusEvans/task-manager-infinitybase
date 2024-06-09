@@ -113,3 +113,18 @@ export function useCreateTask() {
 
     return { mutate, error, isSuccess, data }
 }
+
+export function useFindTask() {
+    const token = localStorage.getItem('refreshToken')
+    const { mutate, error, isSuccess, data } = useMutation(async ({ query, boardId }: { query: string; boardId: string }) => {
+        return await axiosClient.post<Task[]>(
+            `/tasks?search=${query}`,
+            {
+                boardId: boardId
+            },
+            { headers: { Authorization: 'Bearer ' + token } }
+        )
+    })
+
+    return { mutate, error, isSuccess, data }
+}
