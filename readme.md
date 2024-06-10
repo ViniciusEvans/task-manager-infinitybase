@@ -20,12 +20,12 @@ Docker-compose
 
 ## Execução
 
-Primeiro iniciaremos o back-end do projeto
+Abra o seu docker, em seguida
 
 Navegue até a pasta raíz do repositório e execute o docker-compose
 
 ```bash
-  cd .\api\
+  cd .\task-manager-infinitybase\
   docker-compose up -d
 ```
 
