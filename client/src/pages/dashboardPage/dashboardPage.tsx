@@ -1,8 +1,8 @@
 import './style.css'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetBoard } from '../../api/apiRequestHooks'
 import React, { useEffect } from 'react'
-import { useTaskFormModal, useDashboardStore, useViewTaskModal } from '../../store/boardStore'
+import { useTaskFormModal, useDashboardStore, useViewTaskModal, EUserPermissionLevel } from '../../store/boardStore'
 import engine from '../../assets/definicoes.svg'
 import { TaskBoard } from '../../components/taskBoard/taskBoard'
 import { SearchInput } from '../../components/searchInput/searchInput'
@@ -15,6 +15,7 @@ export const DashboardPage = () => {
     const { id } = useParams()
     const { showTaskFormModal } = useTaskFormModal()
     const { showViewTaskModal } = useViewTaskModal()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (isSuccess) {
@@ -27,14 +28,21 @@ export const DashboardPage = () => {
         mutate(id!)
     }, [isSuccess, error])
 
+    function isAdmin() {
+        return board.usersRole[0]?.userPermissionLevel === EUserPermissionLevel.ADMIN
+    }
+
     return (
         <div className="dashboard-container">
             <section className="tasks-section">
                 <header className="section-header">
                     <h3>{board.name}</h3>
-                    <button className="engine-button">
-                        <img id="engine-img" src={engine} alt="configurações do board" />
-                    </button>
+
+                    {isAdmin() && (
+                        <button onClick={() => navigate(`/back-office/board/${board.id}`)} className="engine-button">
+                            <img id="engine-img" src={engine} alt="configurações do board" />
+                        </button>
+                    )}
                 </header>
                 <nav>
                     <SearchInput />

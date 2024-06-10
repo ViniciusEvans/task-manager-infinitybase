@@ -55,6 +55,7 @@
 
     .engine-button {
         all: unset;
+        cursor: pointer;
     }
 
     #engine-img {
