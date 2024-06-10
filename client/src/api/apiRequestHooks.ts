@@ -8,7 +8,7 @@ type User = {
 
 enum EUserPermissionLevel {
     ADMIN = 'ADMIN',
-    USER = 'USER'
+    USER = 'USER',
 }
 type UserRole = {
     userPermissionLevel: EUserPermissionLevel
@@ -56,9 +56,9 @@ export function useGetAllBoards() {
     const { error, isSuccess, data } = useQuery({
         queryFn: async () => {
             return await axiosClient.get<Board[]>('/boards', {
-                headers: { Authorization: 'Bearer ' + token }
+                headers: { Authorization: 'Bearer ' + token },
             })
-        }
+        },
     })
 
     return { error, isSuccess, data }
@@ -105,7 +105,7 @@ export function useCreateTask() {
                 description: task.description,
                 statusId: task.taskStatus.id,
                 userId: task.user.id,
-                attachments: task.attachments
+                attachments: task.attachments,
             },
             { headers: { Authorization: 'Bearer ' + token } }
         )
@@ -120,7 +120,7 @@ export function useFindTask() {
         return await axiosClient.post<Task[]>(
             `/tasks?search=${query}`,
             {
-                boardId: boardId
+                boardId: boardId,
             },
             { headers: { Authorization: 'Bearer ' + token } }
         )
@@ -136,4 +136,24 @@ export function useGetOne() {
     })
 
     return { error, isSuccess, data, mutate }
+}
+
+export function useEditTask() {
+    const token = localStorage.getItem('refreshToken')
+    const { mutate, error, isSuccess, data } = useMutation(async (task: Task & { boardId: string }) => {
+        return await axiosClient.put<Task>(
+            '/task',
+            {
+                boardId: task.boardId,
+                title: task.title,
+                description: task.description,
+                statusId: task.taskStatus.id,
+                taskId: task.id,
+                attachments: task.attachments,
+            },
+            { headers: { Authorization: 'Bearer ' + token } }
+        )
+    })
+
+    return { mutate, error, isSuccess, data }
 }
