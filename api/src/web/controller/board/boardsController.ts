@@ -78,7 +78,7 @@ export class BoardsController {
     res.sendStatus(200);
   }
 
-  async changeTheUserPErmission(req: Request, res: Response) {
+  async changeTheUserPermission(req: Request, res: Response) {
     const { userToChangeId, boardId, permissionLevel } = req.body;
     //@ts-ignore next-line
     const { id: userId } = req.currentUser;
@@ -115,5 +115,47 @@ export class BoardsController {
     const board = await this.boardsService.getBoard(boardId, userId);
 
     return res.status(200).send(board);
+  }
+
+  async getBoardStatus(req: Request, res: Response) {
+    const { id: boardId } = req.params;
+    //@ts-ignore next-line
+    const { id: userId } = req.currentUser;
+
+    if (!boardId) {
+      throw new InvalidArgument("BoardId must be provided", 400);
+    }
+
+    const taskStatus = await this.boardsService.getBoardTaskStatus(
+      boardId,
+      userId
+    );
+
+    return res.status(200).send(taskStatus);
+  }
+
+  async editTaskStatus(req: Request, res: Response) {
+    const { boardId, status, statusId } = req.body;
+    //@ts-ignore next-line
+    const { id: userId } = req.currentUser;
+
+    if (!boardId) {
+      throw new InvalidArgument("BoardId must be provided", 400);
+    }
+    if (!statusId) {
+      throw new InvalidArgument("statusId must be provided", 400);
+    }
+    if (!status) {
+      throw new InvalidArgument("status must be provided", 400);
+    }
+
+    const taskStatus = await this.boardsService.editTaskStatus(
+      boardId,
+      userId,
+      statusId,
+      status
+    );
+
+    return res.status(200).send(taskStatus);
   }
 }

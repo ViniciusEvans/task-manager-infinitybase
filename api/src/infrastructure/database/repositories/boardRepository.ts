@@ -32,10 +32,10 @@ export class BoardRepository implements IBoardRepository {
   }
 
   async store(board: Board): Promise<void> {
-    board.setTaskStatus();
     await this.dataSource.getRepository(Board).save(board);
     await this.dataSource.getRepository(TaskStatus).save(board.taskStatus);
     await this.dataSource.getRepository(UserRole).save(board.usersRole);
+
   }
 
   async removeUserRole(userRole: UserRole): Promise<void> {

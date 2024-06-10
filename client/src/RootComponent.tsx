@@ -8,6 +8,7 @@ import LoginPage from './pages/loginPage/loginPage'
 import BoardsPage from './pages/boardsPage/boardsPage'
 import { useRefreshToken } from './api/apiRequestHooks'
 import { DashboardPage } from './pages/dashboardPage/dashboardPage'
+import { BoardBackOfficePage } from './pages/boardBackOfficePage/boardBackOfficePage'
 
 const queryClient = new QueryClient()
 
@@ -47,7 +48,7 @@ const RootComponent: React.FC = () => {
                     <Route path={ROUTES.SIGNUPPAGE_ROUTE} element={<SignupPage />} />
                     <Route path={ROUTES.LOGINPAGE_ROUTE} element={<LoginPage />} />
                     <Route
-                        path="/boards"
+                        path={ROUTES.BOARDSPAGE_ROUTE}
                         element={
                             <ProtectedRoute>
                                 <BoardsPage />
@@ -55,10 +56,18 @@ const RootComponent: React.FC = () => {
                         }
                     />
                     <Route
-                        path="/board/:id"
+                        path={ROUTES.DASHBOARDPAGE_ROUTE}
                         element={
                             <ProtectedRoute>
                                 <DashboardPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.BOARDBACKOFFICEPAGE_ROUTE}
+                        element={
+                            <ProtectedRoute>
+                                <BoardBackOfficePage />
                             </ProtectedRoute>
                         }
                     />

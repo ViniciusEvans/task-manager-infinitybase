@@ -23,6 +23,7 @@ export class BoardsService {
 
     const newBoard = new Board(title);
     newBoard.setOwner(user, newBoard);
+    newBoard.setTaskStatus();
 
     await this.boardRepository.store(newBoard);
 
@@ -175,5 +176,49 @@ export class BoardsService {
       })),
     };
     return formattedBoard;
+  }
+
+  async getBoardTaskStatus(boardId: string, userId: string) {
+    const board = await this.boardRepository.findBoardByUserIdAndBoardId(
+      userId,
+      boardId
+    );
+
+    if (!board) {
+      throw new InvalidArgument("board not found", 404);
+    }
+
+    return board.taskStatus;
+  }
+
+  async editTaskStatus(
+    boardId: string,
+    userId: string,
+    statusId: string,
+    status: string
+  ) {
+    const board = await this.boardRepository.findBoardByUserIdAndBoardId(
+      userId,
+      boardId
+    );
+
+    if (!board) {
+      throw new InvalidArgument("board not found", 404);
+    }
+
+    board.taskStatus.map((taskStatus) => {
+      if (taskStatus.id === statusId) {
+        taskStatus.status = status;
+      }
+
+      return taskStatus;
+    });
+
+    await this.boardRepository.store(board);
+
+    return board.taskStatus.map((taskStatus) => ({
+      id: taskStatus.id,
+      status: taskStatus.status,
+    }));
   }
 }
