@@ -6,15 +6,16 @@ export const Task = ({ id, title, ownerName, boardId }: { id: string; title: str
     const { setShowViewTaskModal } = useViewTaskModal()
     const { setStore } = useGetOneTaskStore()
 
-    function handleClick() {
-        setStore(id, boardId)
-        setShowViewTaskModal()
+    function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) {
+        setStore(event.currentTarget.attributes.getNamedItem('id')!.value, boardId)
+        setShowViewTaskModal(true)
     }
 
     return (
         <>
-            <button className="task" onClick={handleClick}>
-                <h3 id={id}>{title}</h3>
+            <button id={id} className="task" onClick={(e) => handleClick(e)}>
+                <h3>{title}</h3>
                 <span>{ownerName}</span>
             </button>
         </>
