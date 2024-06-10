@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Attachment, useGetOneTaskStore, useViewTaskModal } from '../../store/boardStore'
+import { Attachment, useGetOneTaskStore, useTaskFormData, useTaskFormModal, useViewTaskModal } from '../../store/boardStore'
 import './style.css'
 import download from '../../assets/downloadIcon.svg'
 import { Task, useGetOne } from '../../api/apiRequestHooks'
 
 export const ViewTaskModal = () => {
     const { setShowViewTaskModal } = useViewTaskModal()
+    const { setShowTaskFormModal } = useTaskFormModal()
+    const { setTask, setIsCreate } = useTaskFormData()
     const { taskId, boardId } = useGetOneTaskStore()
     const [taskDataView, setTaskDataView] = useState({
         title: '',
         id: '',
         description: '',
         attachments: [{ id: '', attachmentUrl: '' }],
-        taskStatus: { id: '', status: '' }
+        taskStatus: { id: '', status: '' },
     } as Task)
     const { isSuccess, error, data, mutate } = useGetOne()
 
@@ -29,6 +31,12 @@ export const ViewTaskModal = () => {
         mutate({ taskId, boardId })
     }, [isSuccess, error])
 
+    function handleEdit() {
+        setTask({ ...taskDataView, boardId })
+        setIsCreate(false)
+        setShowViewTaskModal(false)
+        setShowTaskFormModal(true)
+    }
     return (
         <div className="view-task-modal-container">
             <div className="view-task-modal-section">
@@ -37,9 +45,7 @@ export const ViewTaskModal = () => {
                     <span className="status-tag">{taskDataView.taskStatus.status}</span>
                 </header>
                 <sub></sub>
-                <textarea rows={20} cols={50} name="description-area" id="description-area">
-                    {taskDataView.description}
-                </textarea>
+                <textarea readOnly rows={20} cols={50} value={taskDataView.description} name="description-area" id="description-area"></textarea>
                 <label>
                     Attachment
                     <div className="attachments-section">
@@ -50,8 +56,8 @@ export const ViewTaskModal = () => {
                         ))}
                     </div>
                 </label>
-                <button>Edit</button>
-                <button onClick={setShowViewTaskModal}>Cancel</button>
+                <button onClick={handleEdit}>Edit</button>
+                <button onClick={() => setShowViewTaskModal(false)}>Cancel</button>
             </div>
         </div>
     )
