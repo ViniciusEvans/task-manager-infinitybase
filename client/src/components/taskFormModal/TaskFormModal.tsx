@@ -1,44 +1,69 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import './style.css'
-import { useCreateTaskModal, useDashboardStore, useTaskFormData } from '../../store/boardStore'
-import { useCreateTask } from '../../api/apiRequestHooks'
+import { useTaskFormModal, useDashboardStore, useTaskFormData, Attachment } from '../../store/boardStore'
+import { useCreateTask, useEditTask } from '../../api/apiRequestHooks'
 import { file2Buffer } from '../../resources/fileToBuffer'
 import { Buffer } from 'buffer'
 import { getFileExtension } from '../../resources/getFileExtension'
+import trashIcon from '../../assets/trashIcon.svg'
 
-export const CreateTaskModal = () => {
-    const { setShowCreateTaskModal } = useCreateTaskModal()
-    const { board, addTask } = useDashboardStore()
-    const { mutate, isSuccess, error, data } = useCreateTask()
-    const { setTask, task, resetTask } = useTaskFormData()
+export const TaskFormModal = () => {
+    const { setShowTaskFormModal } = useTaskFormModal()
+    const { board, addTask, replaceTask} = useDashboardStore()
+    const { mutate: createMutate, isSuccess: createIsSuccess, error: createError, data: createData } = useCreateTask()
+    const { mutate: editMutate, isSuccess: editIsSuccess, error: editError, data: editData } = useEditTask()
+    const { setTask, task, resetTask, isCreate, removeAttachment } = useTaskFormData()
     const [errorMessage, setErrorMessage] = useState('')
     const [files, setFiles] = useState([] as File[])
 
-    async function handleSubmit(e: FormEvent) {
+    async function handleCreateSubmit(e: FormEvent) {
         e.preventDefault()
 
         const attachments: { fileExt: string; fileBuffer: Buffer }[] = []
+
         for (const file of files) {
             const fileArrayBuffer: ArrayBuffer = (await file2Buffer(file)) as ArrayBuffer
             attachments.push({ fileExt: getFileExtension(file), fileBuffer: Buffer.from(fileArrayBuffer) })
         }
 
         setTask({ ...task, boardId: board.id })
-        mutate({ ...task, attachments: attachments, boardId: board.id })
+
+        createMutate({ ...task, attachments: attachments, boardId: board.id })
+    }
+
+    async function handleEditSubmit(e: FormEvent) {
+        e.preventDefault()
+
+        setTask({ ...task, boardId: board.id })
+
+        editMutate({ ...task, boardId: board.id })
     }
 
     useEffect(() => {
-        if (error && (error as any).response.status.toString().includes(40)) {
-            setErrorMessage((error as any).response.data.errorMessage)
+        if (createError && (createError as any).response.status.toString().includes(40)) {
+            setErrorMessage((createError as any).response.data.errorMessage)
             return
         }
-        if (isSuccess) {
+        if (createIsSuccess) {
             setErrorMessage('')
-            setShowCreateTaskModal()
+            setShowTaskFormModal(false)
             resetTask()
-            addTask(data!.data)
+            addTask(createData!.data)
         }
-    }, [error, isSuccess])
+    }, [createError, createIsSuccess])
+
+    useEffect(() => {
+        if (editError && (editError as any).response.status.toString().includes(40)) {
+            setErrorMessage((editError as any).response.data.errorMessage)
+            return
+        }
+        if (editIsSuccess) {
+            setErrorMessage('')
+            setShowTaskFormModal(false)
+            resetTask()
+            replaceTask(editData!.data)
+        }
+    }, [editError, editIsSuccess])
 
     function handleFiles(event: HTMLInputElement) {
         if (!event.files) {
@@ -52,16 +77,22 @@ export const CreateTaskModal = () => {
         setFiles(fileArr)
     }
 
+    function handleCancel() {
+        resetTask()
+        setShowTaskFormModal(false)
+    }
+
     return (
         <div className="task-modal-container">
             <div className="task-modal-section">
-                <h1>Create Task</h1>
-                <form className="task-modal-form" onSubmit={handleSubmit}>
+                <h1>{isCreate ? 'Create Task' : 'Edit task'}</h1>
+                <form className="task-modal-form" onSubmit={isCreate ? handleCreateSubmit : handleEditSubmit}>
                     <input
                         type="text"
                         placeholder="title"
                         id="title"
                         className="task-input"
+                        value={task.title}
                         onChange={(e) => setTask({ ...task, title: e.currentTarget.value })}
                     />
 
@@ -104,14 +135,31 @@ export const CreateTaskModal = () => {
                         </select>
                     </label>
 
-                    <textarea className="task-textarea" value={task.description} onChange={(e) => setTask({ ...task, description: e.currentTarget.value })} />
+                    <textarea
+                        className="task-textarea"
+                        value={task.description}
+                        onChange={(e) => setTask({ ...task, description: e.currentTarget.value })}
+                    />
 
-                    <input type="file" className="input-file" name="attachments" multiple onChange={(e) => handleFiles(e.target)} />
+                    {isCreate ? (
+                        <input type="file" className="input-file" name="attachments" multiple onChange={(e) => handleFiles(e.target)} />
+                    ) : (
+                        (task.attachments as Attachment[]).map((attachment) => (
+                            <button
+                                key={attachment.id}
+                                id={attachment.id}
+                                className='delete-attachment-button'
+                                onClick={(e) => removeAttachment(e.currentTarget.attributes.getNamedItem('id')!.value)}
+                            >
+                                <img alt="delete-attachment" className='delete-attachment-icon' src={trashIcon} />
+                            </button>
+                        ))
+                    )}
 
-                    <button type="submit" className="create-task-button task-button">
-                        Create
+                    <button type="submit" className="submit-task-button task-button">
+                        {isCreate ? 'Create' : 'Edit'}
                     </button>
-                    <button type="button" className="cancel-task-button task-button" onClick={setShowCreateTaskModal}>
+                    <button type="button" className="cancel-task-button task-button" onClick={handleCancel}>
                         Cancel
                     </button>
                     <span id="error-message">{errorMessage}</span>

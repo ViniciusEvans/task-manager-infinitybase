@@ -67,6 +67,14 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
+    .delete-attachment-icon {
+        width: 30px;
+    }
+
+    .delete-attachment-button {
+        margin-bottom: 5px;
+    }
 }
 @media (min-width: 600px) {
     .task-modal-container {
@@ -131,5 +139,13 @@
     .input-file {
         margin-top: 10px;
         margin-bottom: 10px;
+    }
+
+    .delete-attachment-icon {
+        width: 30px;
+    }
+
+    .delete-attachment-button {
+        margin-bottom: 5px;
     }
 }
