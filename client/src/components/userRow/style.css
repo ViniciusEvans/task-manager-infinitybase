@@ -1,0 +1,12 @@
+.user-row {
+    background-color: rgb(128, 128, 128, 0.3);
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.remove-user-icon {
+    width: 20px;
+}

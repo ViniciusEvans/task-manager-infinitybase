@@ -71,6 +71,13 @@ type TaskFormDataState = {
     setIsCreate: (show: boolean) => void
 }
 
+type BackofficeUserState = {
+    users: User[]
+    setUsers: (users: User[]) => void
+    removeUser: (userId: string) => void
+    addUSer: (user: User) => void
+}
+
 export const useCreateBoardModal = create<CreateBoardModalState>((set) => ({
     showCreateBoardModal: false,
     setShowCreateBoardModal: () => set((state) => ({ ...state, showCreateBoardModal: !state.showCreateBoardModal }))
@@ -134,4 +141,11 @@ export const useGetOneTaskStore = create<{ taskId: string; boardId: string; setS
     taskId: '',
     boardId: '',
     setStore: (taskId, boardId) => set((state) => ({ ...state, taskId, boardId }))
+}))
+
+export const useUsersBackOffice = create<BackofficeUserState>((set) => ({
+    users: [],
+    setUsers: (users: User[]) => set((state) => ({ ...state, users })),
+    removeUser: (userId: string) => set((state) => ({ ...state, users: state.users.filter((user) => user.id !== userId) })),
+    addUSer: (user: User) => set((state) => ({ ...state, users: [...state.users, user] }))
 }))

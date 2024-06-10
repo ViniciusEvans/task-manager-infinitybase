@@ -32,12 +32,12 @@ export class BoardsService {
 
   async addUserToBoard(
     userId: string,
-    userToAddId: string,
+    userToAddEmail: string,
     boardId: string,
     permissionLevel: UserPermissionLevel
   ) {
     const user = await this.userRepository.getUserById(userId);
-    const userToAdd = await this.userRepository.getUserById(userToAddId);
+    const userToAdd = await this.userRepository.getUserByEmail(userToAddEmail);
 
     if (!user || !userToAdd) {
       throw new InvalidArgument("User not found", 404);
@@ -65,13 +65,15 @@ export class BoardsService {
       throw new InvalidArgument("Only admin can add user", 401);
     }
 
-    if (board.usersRole.find((userRole) => userRole.user.id === userToAddId)) {
+    if (board.usersRole.find((userRole) => userRole.user.id === userToAdd.id)) {
       throw new InvalidArgument("user already added", 400);
     }
 
     board.addUser(userToAdd, board, permissionLevel);
 
     await this.boardRepository.store(board);
+
+    return { id: userToAdd.id, name: userToAdd.name };
   }
 
   async removeUserFromBoard(
@@ -226,6 +228,31 @@ export class BoardsService {
     return board.taskStatus.map((taskStatus) => ({
       id: taskStatus.id,
       status: taskStatus.status,
+    }));
+  }
+
+  async getBoardUsers(boardId: string, userId: string) {
+    const board = await this.boardRepository.findBoardByUserIdAndBoardId(
+      userId,
+      boardId
+    );
+
+    if (!board) {
+      throw new InvalidArgument("board not found", 404);
+    }
+
+    if (
+      board.usersRole.find((role) => role.user.id === userId)
+        ?.userPermissionLevel !== UserPermissionLevel.ADMIN
+    ) {
+      throw new InvalidArgument("Only admin can edit task status", 401);
+    }
+    
+    const boardUsers = await this.boardRepository.findBoardById(boardId);
+
+    return boardUsers?.usersRole.map((role) => ({
+      id: role.user.id,
+      name: role.user.name,
     }));
   }
 }

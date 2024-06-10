@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
 import { axiosClient } from './axiosClient'
 
-type User = {
+export type User = {
     id: string
     name: string
 }
@@ -95,7 +95,7 @@ export function useRefreshToken() {
 }
 
 export function useCreateTask() {
-    const token = localStorage.getItem('refreshToken')
+    const token = localStorage.getItem('accessToken')
     const { mutate, error, isSuccess, data } = useMutation(async (task: Task & { boardId: string }) => {
         return await axiosClient.post<Task>(
             '/task',
@@ -115,7 +115,7 @@ export function useCreateTask() {
 }
 
 export function useFindTask() {
-    const token = localStorage.getItem('refreshToken')
+    const token = localStorage.getItem('accessToken')
     const { mutate, error, isSuccess, data } = useMutation(async ({ query, boardId }: { query: string; boardId: string }) => {
         return await axiosClient.post<Task[]>(
             `/tasks?search=${query}`,
@@ -130,7 +130,7 @@ export function useFindTask() {
 }
 
 export function useGetOne() {
-    const token = localStorage.getItem('refreshToken')
+    const token = localStorage.getItem('accessToken')
     const { error, isSuccess, data, mutate } = useMutation(async ({ taskId, boardId }: { taskId: string; boardId: string }) => {
         return await axiosClient.get<Task>(`/task?boardId=${boardId}&taskId=${taskId}`, { headers: { Authorization: 'Bearer ' + token } })
     })
@@ -139,7 +139,7 @@ export function useGetOne() {
 }
 
 export function useEditTask() {
-    const token = localStorage.getItem('refreshToken')
+    const token = localStorage.getItem('accessToken')
     const { mutate, error, isSuccess, data } = useMutation(async (task: Task & { boardId: string }) => {
         return await axiosClient.put<Task>(
             '/task',
@@ -159,7 +159,7 @@ export function useEditTask() {
 }
 
 export function useEditStatus() {
-    const token = localStorage.getItem('refreshToken')
+    const token = localStorage.getItem('accessToken')
     const { mutate, error, isSuccess, data } = useMutation(async ({ boardId, status, statusId }: { boardId: string; status: string; statusId: string }) => {
         return await axiosClient.put<TaskStatus[]>(
             '/board/task-status',
@@ -178,7 +178,11 @@ export function useEditStatus() {
 export function useGetTaskStatus(id: string) {
     const token = localStorage.getItem('accessToken')
 
-    const { error, isSuccess, data } = useQuery({
+    const {
+        data: getTaskStatusData,
+        isSuccess: getTaskStatusIsSuccess,
+        error: getTaskStatusError
+    } = useQuery({
         queryFn: async () => {
             return await axiosClient.get<TaskStatus[]>(`/board/task-status/${id}`, {
                 headers: { Authorization: 'Bearer ' + token }
@@ -186,5 +190,57 @@ export function useGetTaskStatus(id: string) {
         }
     })
 
-    return { error, isSuccess, data }
+    return { getTaskStatusData, getTaskStatusIsSuccess, getTaskStatusError }
+}
+
+export function useAddUser() {
+    const token = localStorage.getItem('accessToken')
+    const { mutate, error, isSuccess, data } = useMutation(
+        async ({ boardId, userToAddEmail, permissionLevel }: { userToAddEmail: string; boardId: string; permissionLevel: EUserPermissionLevel }) => {
+            return await axiosClient.post<User>(
+                '/board/add-user',
+                {
+                    boardId,
+                    permissionLevel,
+                    userToAddEmail
+                },
+                { headers: { Authorization: 'Bearer ' + token } }
+            )
+        }
+    )
+
+    return { mutate, error, isSuccess, data }
+}
+
+export function useRemoveUser() {
+    const token = localStorage.getItem('refreshToken')
+    const { mutate, error, isSuccess, data } = useMutation(async ({ userId, boardId }: { userId: string; boardId: string }) => {
+        return await axiosClient.put<User>(
+            '/board/task-status',
+            {
+                boardId,
+                userId
+            },
+            { headers: { Authorization: 'Bearer ' + token } }
+        )
+    })
+
+    return { mutate, error, isSuccess, data }
+}
+
+export function useGetUsers() {
+    const token = localStorage.getItem('accessToken')
+
+    const {
+        data: getUsersData,
+        isSuccess: getUsersIsSuccess,
+        error: getUsersError,
+        mutate
+    } = useMutation(async (id: string) => {
+        return await axiosClient.get<User[]>(`/board/users/${id}`, {
+            headers: { Authorization: 'Bearer ' + token }
+        })
+    })
+
+    return { mutate, getUsersError, getUsersIsSuccess, getUsersData }
 }

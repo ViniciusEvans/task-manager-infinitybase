@@ -13,7 +13,7 @@ export function TaskStatusRow({ id, status, boardId }: { id: string; status: str
     return (
         <div className="task-status-row" key={id}>
             <label className="task-status-label" htmlFor={`status-input-${id}`}>
-                {status}
+                <span className='status-span'>{status}</span>
                 <div>
                     <input
                         className="task-status-input"

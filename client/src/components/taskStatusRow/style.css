@@ -17,6 +17,12 @@
     .submit-status-icon {
         width: 10px;
     }
+
+    .status-span {
+        max-width: 30%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
 @media (min-width: 600px) {
     .task-status-row {
@@ -36,5 +42,10 @@
 
     .submit-status-icon {
         width: 10px;
+    }
+
+    .status-span {
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }

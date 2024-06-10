@@ -1,0 +1,89 @@
+@media (max-width: 600px) {
+    .board-backoffice-container {
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        padding: 20px;
+    }
+
+    .board-backoffice-users-section {
+        box-sizing: border-box;
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-input-container {
+        display: flex;
+    }
+
+    .user-row {
+        background-color: rgb(128, 128, 128, 0.3);
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .search-users-input {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .remove-user-icon {
+        width: 20px;
+    }
+
+    .users-container {
+        box-sizing: border-box;
+        max-height: 40%;
+        overflow-x: hidden;
+        margin-top: 5px;
+        height: 100%;
+    }
+
+    .task-status-container {
+        height: 40%;
+    }
+}
+
+@media (min-width: 600px) {
+    .board-backoffice-container {
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        padding: 40px;
+    }
+
+    .board-backoffice-users-section {
+        box-sizing: border-box;
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-input-container {
+        display: flex;
+    }
+
+    .search-users-input {
+        width: 100%;
+        padding: 5px;
+    }
+
+
+    .users-container {
+        box-sizing: border-box;
+        max-height: 40%;
+        overflow-x: hidden;
+        margin-top: 5px;
+        height: 100%;
+    }
+
+    .task-status-container {
+        height: 40%;
+    }
+}

@@ -2,6 +2,7 @@ import { Board } from "src/domain/entities/Board/Board";
 import { IBoardRepository } from "src/domain/entities/Board/IBoardRepository";
 import { UserRole } from "src/domain/entities/Board/UserRole";
 import { TaskStatus } from "src/domain/entities/Task/TaskStatus";
+import { User } from "src/domain/entities/User/User";
 import { DataSource } from "typeorm";
 
 export class BoardRepository implements IBoardRepository {
@@ -35,7 +36,6 @@ export class BoardRepository implements IBoardRepository {
     await this.dataSource.getRepository(Board).save(board);
     await this.dataSource.getRepository(TaskStatus).save(board.taskStatus);
     await this.dataSource.getRepository(UserRole).save(board.usersRole);
-
   }
 
   async removeUserRole(userRole: UserRole): Promise<void> {
@@ -48,7 +48,9 @@ export class BoardRepository implements IBoardRepository {
       .createQueryBuilder("board")
       .leftJoinAndSelect("board.usersRole", "users_role")
       .leftJoinAndSelect("users_role.user", "user")
+      .leftJoinAndSelect("board.taskStatus", "task_status")
       .where("board.id = :boardId", { boardId })
       .getOne();
   }
+
 }

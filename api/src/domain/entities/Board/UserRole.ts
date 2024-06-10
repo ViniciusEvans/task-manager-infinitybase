@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../User/User";
 import { Board } from "./Board";
+import { v4 as uuid } from "uuid";
 
 export enum UserPermissionLevel {
   ADMIN = "ADMIN",
@@ -26,6 +27,7 @@ export class UserRole {
     board: Board,
     userPermissionLevel: UserPermissionLevel
   ) {
+    this.id = uuid()
     this.user = user;
     this.board = board;
     this.userPermissionLevel = userPermissionLevel;

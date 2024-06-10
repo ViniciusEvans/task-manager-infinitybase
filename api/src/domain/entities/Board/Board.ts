@@ -36,7 +36,6 @@ export class Board {
     if (!this.usersRole) {
       this.usersRole = [];
     }
-
     this.usersRole.push(new UserRole(user, board, userPermissionLevel));
   }
 

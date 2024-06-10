@@ -29,15 +29,12 @@ export class BoardsController {
   }
 
   async addUserToBoard(req: Request, res: Response) {
-    const { userToAddId, boardId, permissionLevel } = req.body;
+    const { userToAddEmail, boardId, permissionLevel } = req.body;
     //@ts-ignore next-line
     const { id: userId } = req.currentUser;
 
-    if (!userId) {
-      throw new InvalidArgument("UserId must be provided", 400);
-    }
-    if (!userToAddId) {
-      throw new InvalidArgument("userToAddId must be provided", 400);
+    if (!userToAddEmail) {
+      throw new InvalidArgument("userToAddEmail must be provided", 400);
     }
     if (!boardId) {
       throw new InvalidArgument("boardId must be provided", 400);
@@ -46,14 +43,14 @@ export class BoardsController {
       throw new InvalidArgument("permissionLevel must be provided", 400);
     }
 
-    await this.boardsService.addUserToBoard(
+    const user = await this.boardsService.addUserToBoard(
       userId,
-      userToAddId,
+      userToAddEmail,
       boardId,
       permissionLevel
     );
 
-    return res.sendStatus(204);
+    return res.status(200).send(user);
   }
 
   async removeUserFromBoard(req: Request, res: Response) {
@@ -157,5 +154,19 @@ export class BoardsController {
     );
 
     return res.status(200).send(taskStatus);
+  }
+
+  async getBoardUsers(req: Request, res: Response) {
+    const { id: boardId } = req.params;
+    //@ts-ignore next-line
+    const { id: userId } = req.currentUser;
+
+    if (!boardId) {
+      throw new InvalidArgument("BoardId must be provided", 400);
+    }
+
+    const users = await this.boardsService.getBoardUsers(boardId, userId);
+
+    return res.status(200).send(users);
   }
 }
