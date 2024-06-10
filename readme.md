@@ -6,27 +6,21 @@ O projeto consiste em um aplicativo web aonde de gerenciamento de tarefas (e.g. 
 
 
 ## Pré-requisitos
-Git
 
 Docker
 
 Docker-compose
-## Tecnologias:
+## Stack utilizada
 
-- React
-- Typescript
-- Zustand
-- Docker
-- Node
-- Express
-- TypeOrm
+**Front-end:** React, Typescript, Zustand, Docker
+
+
+**Back-end:** Node, Express, TypeOrm, Docker
+
 
 ## Execução
 
-Primeiro, faça o clone do repositório na sua máquina
-```bash
-  git clone https://github.com/ViniciusEvans/task-manager-infinitybase.git
-```
+Primeiro iniciaremos o back-end do projeto
 
 Navegue até a pasta raíz do repositório e execute o docker-compose
 
@@ -36,3 +30,12 @@ Navegue até a pasta raíz do repositório e execute o docker-compose
 ```
 
 Feito isso, os containers do docker serão criados em background e já será possível ter acesso à aplicação. Para utilizar a aplicação, acesse: http://localhost:8000/
+## Uso:
+
+o banco já vem populado com conta de teste, se quiser utilizá-la:
+
+email: teste@gmai.com
+senha: teste1234
+
+ou se prefirir, crie a própria conta para testar as funcionalidades.
+
