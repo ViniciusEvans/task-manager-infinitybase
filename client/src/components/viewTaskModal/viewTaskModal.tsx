@@ -20,7 +20,6 @@ export const ViewTaskModal = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            console.log(data!.data)
             setTaskDataView({ ...data!.data, attachments: data!.data.attachments! as Attachment[] })
             return
         }
