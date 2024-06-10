@@ -12,7 +12,7 @@ type User = {
 
 enum EUserPermissionLevel {
     ADMIN = 'ADMIN',
-    USER = 'USER'
+    USER = 'USER',
 }
 
 type UserRole = {
@@ -50,64 +50,88 @@ type DashboardState = {
     setDashboard: (board: Board) => void
     addTask: (task: Task) => void
     setTasks: (task: Task[]) => void
+    replaceTask: (task: Task ) => void
 }
 
 type CreateTaskModalState = {
-    showCreateTaskModal: boolean
-    setShowCreateTaskModal: () => void
+    showTaskFormModal: boolean
+    setShowTaskFormModal: (show: boolean) => void
 }
 type ViewTaskModalState = {
     showViewTaskModal: boolean
-    setShowViewTaskModal: () => void
+    setShowViewTaskModal: (show: boolean) => void
 }
 
 type TaskFormDataState = {
+    isCreate: boolean
     task: Task & { boardId: string }
     setTask: (task: Task & { boardId: string }) => void
     resetTask: () => void
+    removeAttachment: (id: string) => void
+    setIsCreate: (show: boolean) => void
 }
 
 export const useCreateBoardModal = create<CreateBoardModalState>((set) => ({
     showCreateBoardModal: false,
-    setShowCreateBoardModal: () => set((state) => ({ ...state, showCreateBoardModal: !state.showCreateBoardModal }))
+    setShowCreateBoardModal: () => set((state) => ({ ...state, showCreateBoardModal: !state.showCreateBoardModal })),
 }))
 
 export const useBoardsStores = create<BoardsState>((set) => ({
     boards: [],
     addBoard: (newBoard: { id: string; name: string }) =>
         set((state) => ({ ...state, boards: [...state.boards, { ...newBoard, tasks: [], taskStatus: [], users: [], usersRole: [] }] })),
-    setBoards: (boards: Board[]) => set((state) => ({ ...state, boards: [...boards] }))
+    setBoards: (boards: Board[]) => set((state) => ({ ...state, boards: [...boards] })),
 }))
 
 export const useDashboardStore = create<DashboardState>((set) => ({
     board: { id: '', name: '', taskStatus: [], tasks: [], users: [], usersRole: [] },
     setDashboard: (board: Board) => set((state) => ({ ...state, board: board })),
     addTask: (task: Task) => set((state) => ({ ...state, board: { ...state.board, tasks: [...state.board.tasks, task] } })),
-    setTasks: (tasks: Task[]) => set((state) => ({ ...state, board: { ...state.board, tasks: [...tasks] } }))
+    setTasks: (tasks: Task[]) => set((state) => ({ ...state, board: { ...state.board, tasks: [...tasks] } })),
+    replaceTask: (taskToReplace: Task) =>
+        set((state) => ({
+            ...state,
+            board: {
+                ...state.board,
+                tasks: state.board.tasks.map((task) => {
+                    if (task.id === taskToReplace.id) {
+                        return { ...taskToReplace }
+                    }
+                    return task
+                }),
+            },
+        })),
 }))
 
-export const useCreateTaskModal = create<CreateTaskModalState>((set) => ({
-    showCreateTaskModal: false,
-    setShowCreateTaskModal: () => set((state) => ({ ...state, showCreateTaskModal: !state.showCreateTaskModal }))
+export const useTaskFormModal = create<CreateTaskModalState>((set) => ({
+    showTaskFormModal: false,
+    setShowTaskFormModal: (show) => set((state) => ({ ...state, showTaskFormModal: show })),
 }))
 
 export const useTaskFormData = create<TaskFormDataState>((set) => ({
+    isCreate: true,
     task: { id: '', title: '', taskStatus: { id: '', status: '' }, description: '', user: { id: '', name: '' }, boardId: '', attachments: [] },
     setTask: (task) => set((state) => ({ ...state, task: task })),
     resetTask: () =>
         set((state) => ({
             ...state,
-            task: { id: '', title: '', taskStatus: { id: '', status: '' }, description: '', user: { id: '', name: '' }, boardId: '', attachments: [] }
-        }))
+            task: { id: '', title: '', taskStatus: { id: '', status: '' }, description: '', user: { id: '', name: '' }, boardId: '', attachments: [] },
+        })),
+    removeAttachment: (id) =>
+        set((state) => ({
+            ...state,
+            task: { ...state.task, attachments: (state.task.attachments as Attachment[]).filter((att) => att.id !== id) },
+        })),
+    setIsCreate: (show) => set((state) => ({ ...state, isCreate: show })),
 }))
 
 export const useViewTaskModal = create<ViewTaskModalState>((set) => ({
     showViewTaskModal: false,
-    setShowViewTaskModal: () => set((state) => ({ ...state, showViewTaskModal: !state.showViewTaskModal }))
+    setShowViewTaskModal: (show: boolean) => set((state) => ({ ...state, showViewTaskModal: show })),
 }))
 
 export const useGetOneTaskStore = create<{ taskId: string; boardId: string; setStore: (taskId: string, boardId: string) => void }>((set) => ({
     taskId: '',
     boardId: '',
-    setStore: (taskId, boardId) => set((state) => ({ ...state, taskId, boardId }))
+    setStore: (taskId, boardId) => set((state) => ({ ...state, taskId, boardId })),
 }))
