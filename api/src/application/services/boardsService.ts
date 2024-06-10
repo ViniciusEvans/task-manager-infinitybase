@@ -206,6 +206,13 @@ export class BoardsService {
       throw new InvalidArgument("board not found", 404);
     }
 
+    if (
+      board.usersRole.find((role) => role.user.id === userId)
+        ?.userPermissionLevel !== UserPermissionLevel.ADMIN
+    ) {
+      throw new InvalidArgument("Only admin can edit task status", 401);
+    }
+
     board.taskStatus.map((taskStatus) => {
       if (taskStatus.id === statusId) {
         taskStatus.status = status;
