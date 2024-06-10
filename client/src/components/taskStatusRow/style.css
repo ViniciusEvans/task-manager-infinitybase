@@ -1,0 +1,40 @@
+@media (max-width: 600px) {
+    .task-status-row {
+        background-color: rgb(128, 128, 128, 0.2);
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+
+    .task-status-label {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .submit-status-icon {
+        width: 10px;
+    }
+}
+@media (min-width: 600px) {
+    .task-status-row {
+        background-color: rgb(128, 128, 128, 0.2);
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+
+    .task-status-label {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .submit-status-icon {
+        width: 10px;
+    }
+}
