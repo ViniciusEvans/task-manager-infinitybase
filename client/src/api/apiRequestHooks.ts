@@ -175,22 +175,21 @@ export function useEditStatus() {
     return { mutate, error, isSuccess, data }
 }
 
-export function useGetTaskStatus(id: string) {
+export function useGetTaskStatus() {
     const token = localStorage.getItem('accessToken')
 
     const {
         data: getTaskStatusData,
         isSuccess: getTaskStatusIsSuccess,
-        error: getTaskStatusError
-    } = useQuery({
-        queryFn: async () => {
-            return await axiosClient.get<TaskStatus[]>(`/board/task-status/${id}`, {
-                headers: { Authorization: 'Bearer ' + token }
-            })
-        }
+        error: getTaskStatusError,
+        mutate: mutateGetTaskStatus
+    } = useMutation(async (id: string) => {
+        return await axiosClient.get<TaskStatus[]>(`/board/task-status/${id}`, {
+            headers: { Authorization: 'Bearer ' + token }
+        })
     })
 
-    return { getTaskStatusData, getTaskStatusIsSuccess, getTaskStatusError }
+    return { getTaskStatusData, getTaskStatusIsSuccess, getTaskStatusError, mutateGetTaskStatus }
 }
 
 export function useAddUser() {

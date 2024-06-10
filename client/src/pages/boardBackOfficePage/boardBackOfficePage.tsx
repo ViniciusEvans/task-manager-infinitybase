@@ -10,7 +10,7 @@ export function BoardBackOfficePage() {
     const { users, setUsers, addUSer } = useUsersBackOffice()
     const [taskStatus, setTaskStatus] = useState([{ id: '', status: '' }])
     const { id } = useParams()
-    const { getTaskStatusData, getTaskStatusIsSuccess, getTaskStatusError } = useGetTaskStatus(id!)
+    const { getTaskStatusData, getTaskStatusIsSuccess, getTaskStatusError, mutateGetTaskStatus } = useGetTaskStatus()
     const { getUsersData, getUsersIsSuccess, getUsersError, mutate: mutateUser } = useGetUsers()
     const [addInput, setAddInput] = useState('')
     const { mutate: mutateAddUser, isSuccess: addUserIsSucces, error: addUserError, data: addUserData } = useAddUser()
@@ -18,10 +18,14 @@ export function BoardBackOfficePage() {
     useEffect(() => {
         if (getTaskStatusIsSuccess) {
             setTaskStatus(getTaskStatusData!.data)
+            return
         }
         if (getTaskStatusError) {
             console.log(getTaskStatusError)
+            return
         }
+
+        mutateGetTaskStatus(id!)
     }, [getTaskStatusIsSuccess, getTaskStatusError])
 
     useEffect(() => {
