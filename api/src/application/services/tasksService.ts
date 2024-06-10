@@ -67,7 +67,7 @@ export class TasksService {
       const fileName = this.hashService.hashBinary(buffer);
 
       const upload = await this.cloudStorageService.uploadFile(
-        fileName + file.fileExt,
+        `${fileName}.${file.fileExt}`,
         buffer
       );
       files.push(upload);
