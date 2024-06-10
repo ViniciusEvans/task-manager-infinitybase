@@ -2,18 +2,18 @@ import './style.css'
 import { useParams } from 'react-router-dom'
 import { useGetBoard } from '../../api/apiRequestHooks'
 import React, { useEffect } from 'react'
-import { useCreateTaskModal, useDashboardStore, useViewTaskModal } from '../../store/boardStore'
+import { useTaskFormModal, useDashboardStore, useViewTaskModal } from '../../store/boardStore'
 import engine from '../../assets/definicoes.svg'
 import { TaskBoard } from '../../components/taskBoard/taskBoard'
 import { SearchInput } from '../../components/searchInput/searchInput'
-import { CreateTaskModal } from '../../components/createTaskModal/createTaskModal'
 import { ViewTaskModal } from '../../components/viewTaskModal/viewTaskModal'
+import { TaskFormModal } from '../../components/taskFormModal/TaskFormModal'
 
 export const DashboardPage = () => {
     const { mutate, isSuccess, data, error } = useGetBoard()
     const { board, setDashboard } = useDashboardStore()
     const { id } = useParams()
-    const { showCreateTaskModal } = useCreateTaskModal()
+    const { showTaskFormModal } = useTaskFormModal()
     const { showViewTaskModal } = useViewTaskModal()
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export const DashboardPage = () => {
                     ))}
                 </div>
             </section>
-            {showCreateTaskModal && <CreateTaskModal />}
+            {showTaskFormModal && <TaskFormModal />}
             {showViewTaskModal && <ViewTaskModal />}
         </div>
     )
