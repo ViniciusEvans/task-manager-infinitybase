@@ -34,7 +34,7 @@ Feito isso, os containers do docker serão criados em background e já será pos
 
 o banco já vem populado com conta de teste, se quiser utilizá-la:
 
-email: teste@gmai.com
+email: teste@gmail.com
 senha: teste1234
 
 ou se prefirir, crie a própria conta para testar as funcionalidades.
